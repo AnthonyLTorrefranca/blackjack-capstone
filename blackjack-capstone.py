@@ -1,18 +1,19 @@
 # # Set up the deck and basic mechanics
 # DECLARE deck as LIST of 52 card values (2-10, J, Q, K, A)
 import random
-
-decks = [
-            11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
-        ] * 4
-def shuffle_deck(decks):
-    random.shuffle(decks)
-
-def deal_card(decks):
-    if not decks:
-        shuffle_deck(decks)
-    shuffle_deck(decks)
-    return decks.pop()
+# define deck
+deck = [
+    11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
+] * 4
+# function for the shuffle deck
+def shuffle_deck(deck):
+    random.shuffle(deck)
+# function for the deal card
+def deal_card(deck):
+    if not deck:
+        shuffle_deck(deck)
+    shuffle_deck(deck)
+    return deck.pop()
 
 
 # FUNCTION shuffle_deck(deck):
@@ -20,10 +21,7 @@ def deal_card(decks):
 #
 # FUNCTION deal_card(deck):
 #     IF deck is not empty:
-#         RETURN and REMOVE last card from deck
-
-
-
+#         RETURN and REMOVE last card from
 # # The scoring engine
 # FUNCTION calculate_total(hand):
 #     SET total = 0
