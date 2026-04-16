@@ -1,5 +1,6 @@
-# # Set up the deck and basic mechanics
+# Set up the deck and basic mechanics
 # DECLARE deck as LIST of 52 card values (2-10, J, Q, K, A)
+# importing random
 import random
 # define deck
 deck = [
@@ -11,130 +12,82 @@ def shuffle_deck(deck):
 # function for the deal card
 def deal_card(deck):
     if not deck:
-        shuffle_deck(deck)
+        return None
     shuffle_deck(deck)
     return deck.pop()
+# function for handling total and ace_count
+def hand_total(hand):
+    total = 0
+    ace_count = 0
+    for card in hand:
+        if card == 11:
+            ace_count += 1
 
-
-# FUNCTION shuffle_deck(deck):
-#     USE random module to REARRANGE deck in place
-#
-# FUNCTION deal_card(deck):
-#     IF deck is not empty:
-#         RETURN and REMOVE last card from
-# # The scoring engine
-# FUNCTION calculate_total(hand):
-#     SET total = 0
-#     SET ace_count = 0
-#
-#     FOR EACH card IN hand:
-#         IF card is "A":
-#             total += 11
-#             ace_count += 1
-#         ELSE IF card is in ["J", "Q", "K"]:
-#             total += 10
-#         ELSE:
-#             total += integer_value(card)
-#
-#     # Adjust for Aces if busting
-#     WHILE total > 21 AND ace_count > 0:
-#         total -= 10
-#         ace_count -= 1
-#
-#     RETURN total
-# # Participant behaviors and win conditions
-# FUNCTION
+    while total > 21 and ace_count > 0:
+        total -= 10
+        ace_count -= 1
+    return total
+# function for player turn with parameter of deck and player hand:
 # player_turn(deck, player_hand):
-# WHILE
-# calculate_total(player_hand) < 21:
-# PRINT
-# "Your hand: [cards] (Total: [score])"
-# GET
-# user_input("hit" or "stand")
-#
-# IF
-# user_input
-# IS
-# "hit":
-# APPEND
-# deal_card(deck)
-# TO
-# player_hand
-# ELSE:
-# BREAK
-# loop
-# RETURN
-# calculate_total(player_hand)
-#
-# FUNCTION
-# dealer_turn(deck, dealer_hand):
-# # Dealer logic: must hit until 17 or higher
-# WHILE
-# calculate_total(dealer_hand) < 17:
-# APPEND
-# deal_card(deck)
-# TO
-# dealer_hand
-# RETURN
-# calculate_total(dealer_hand)
-#
-# FUNCTION
-# evaluate_winner(p_score, d_score):
-# IF
-# p_score > 21:
-# RETURN
-# "Player Busts! Dealer Wins."
-# IF
-# d_score > 21:
-# RETURN
-# "Dealer Busts! Player Wins."
-# IF
-# p_score > d_score:
-# RETURN
-# "Player Wins!"
-# IF
-# d_score > p_score:
-# RETURN
-# "Dealer Wins."
-# RETURN
-# "It's a Push!"
-# # The main execution block
-# FUNCTION
-# main():
-# WHILE
-# TRUE:
-# SET
-# current_deck = shuffle_deck(NEW
-# deck)
-# SET
-# player_hand = [deal_card(current_deck), deal_card(current_deck)]
-# SET
-# dealer_hand = [deal_card(current_deck), deal_card(current_deck)]
-#
-# # Execution
-# player_score = player_turn(current_deck, player_hand)
-#
-# IF
-# player_score <= 21:
-# dealer_score = dealer_turn(current_deck, dealer_hand)
-# ELSE:
-# dealer_score = calculate_total(dealer_hand)  # For display only
-#
-# # Final Result
-# PRINT
-# evaluate_winner(player_score, dealer_score)
-#
-# IF
-# input("Play again? (y/n)")
-# IS
-# NOT
-# "y":
-# PRINT
-# "Thanks for playing!"
-# BREAK
-# loop
-#
-# # Standard Python entry trigger
-# IF
-# __name__ == "__main__":
-# main()
+def player_turn(deck, player_hand):
+    # WHILE calculate_total(player_hand) < 21:
+    while calculate_total(player_hand) < 21:
+        print(f"Your hand: {deck} (Total: {hand_total(player_hand)})")
+        user_input = input("Hit or stand? ").lower()
+
+# FUNCTION dealer_turn(deck, player_hand):
+def dealer_turn(deck, player_hand):
+    # Dealer logic: must hit until 17 or higher
+    # WHILE calculate_total(player_hand) < 17:
+    while calculate_total(player_hand) < 17:
+        # APPEND deal_card(deck) TO player_hand
+        player_hand.append(deal_card(deck))
+    return calculate_total(player_hand)
+        # RETURN
+        # calculate_total(player_hand)
+def evaluate_winner(player_hand, dealer):
+    if player_hand > 21:
+        return "Player Busts! Dealer wins."
+    elif dealer > 21:
+        return "Dealer Busts! Player wins."
+    elif player_hand > dealer:
+        return "Player Wins!"
+    elif dealer > player_hand:
+        return "Dealer Wins!"
+    return "It's a Push!"
+
+def main():
+    while True:
+        current_deck = shuffle_deck(deck)
+        player_hand = [deal_card(current_deck), deal_card(current_deck)]
+        dealer_hand = [deal_card(current_deck), deal_card(current_deck)]
+        player_score = player_turn(current_deck, player_hand)
+
+        if player_score <= 21:
+            dealer_score = dealer_turn(current_deck, player_hand)
+        else:
+            dealer_score = calculate_total(dealer_hand)
+
+
+# The main execution block
+# FUNCTION main():
+    # WHILE TRUE:
+    # SET current_deck = shuffle_deck(NEW deck)
+    # SET player_hand = [deal_card(current_deck), deal_card(current_deck)]
+    # SET dealer_hand = [deal_card(current_deck), deal_card(current_deck)]
+    # Execution
+    # player_score = player_turn(current_deck, player_hand)
+    # IF player_score <= 21:
+        # dealer_score = dealer_turn(current_deck, dealer_hand)
+    # ELSE:
+        # dealer_score = calculate_total(dealer_hand)  # For display only
+    # Final Result
+    # PRINT evaluate_winner(player_score, dealer_score)
+    # IF input("Play again? (y/n)")
+    # IS NOT "y":
+        # PRINT "Thanks for playing!"
+    # BREAK
+        # loop
+    # Standard Python entry trigger
+    # IF __name__ == "__main__":
+    # main()
